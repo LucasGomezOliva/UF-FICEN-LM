@@ -1,0 +1,38 @@
+/*
+ * FW_Systick.c
+ *
+ *  Created on: 30 mar. 2025
+ *      Author: Abel
+ */
+
+#include"Ejercicio01.h"
+
+
+void Systick_Init(SystickTickConfig config){
+    switch(config){
+    case Tick_1ms:
+        SysTick_Config(SystemCoreClock / 1000);  // 1ms
+        break;
+    case Tick_10ms:
+        SysTick_Config(SystemCoreClock / 100);   // 10ms
+        break;
+    case Tick_50ms:
+        SysTick_Config(SystemCoreClock / 20);    // 50ms
+        break;
+    default:
+        SysTick_Config(SystemCoreClock / 1000);  // Por defecto 1ms
+        break;
+    }
+}
+
+void SysTick_Handler(void)
+{
+	static uint16_t CountSegs = 0;
+	if(CountSegs >= 1000) // Cuento 1000ms == 1s
+		{
+			ToggleLedFlag = 1;
+			CountSegs = 0;
+		}
+	CountSegs++;
+	return;
+}
